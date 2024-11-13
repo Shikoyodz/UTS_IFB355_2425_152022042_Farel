@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">UTS_PemMob</string>
+    <string name="enter_temperature_hint">Enter temperature</string>
+    <string name="convert_button_text">Convert</string>
+    <string name="conversion_result">Result: %1$.5f</string>
+    <string name="invalid_input_message">Please enter a valid numeric value</string>
+    <string name="Open_Temperature_Converter">Open Temperature Converter</string>
+</resources>

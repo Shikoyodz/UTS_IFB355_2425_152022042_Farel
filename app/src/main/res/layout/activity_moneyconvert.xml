@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:title="BMI Calculator"
+        android:titleTextColor="@android:color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <EditText
+        android:id="@+id/amountInput"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Enter amount"
+        android:inputType="numberDecimal" />
+
+    <Spinner
+        android:id="@+id/currencyFromSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="69dp" />
+
+    <Spinner
+        android:id="@+id/currencyToSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="66dp" />
+
+    <Button
+        android:id="@+id/convertButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Convert" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginTop="16dp"
+        android:text="Hasil Nya :"
+        android:textSize="24sp" />
+</LinearLayout>
