@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.uts_pemmob.databinding.ActivityTemperatureBinding
 import java.text.DecimalFormat
+import androidx.core.graphics.drawable.DrawableCompat
 
 class TemperatureActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTemperatureBinding
@@ -23,6 +24,12 @@ class TemperatureActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val drawable = toolbar.navigationIcon
+        drawable?.let {
+            DrawableCompat.setTint(it, resources.getColor(android.R.color.white, theme))
+            toolbar.navigationIcon = it
+        }
+
         toolbar.setTitleTextColor(resources.getColor(android.R.color.white, theme))
 
         // Setup Spinner with temperature units
@@ -33,6 +40,9 @@ class TemperatureActivity : AppCompatActivity() {
 
         // Set listener for the convert button
         binding.convertButton.setOnClickListener { convertTemperature() }
+
+        // Set listener for the swap button
+        binding.swapButton.setOnClickListener { swapUnits() }
     }
 
     private fun convertTemperature() {
@@ -99,6 +109,23 @@ class TemperatureActivity : AppCompatActivity() {
 
     private fun String.showToast() {
         Toast.makeText(this@TemperatureActivity, this, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun swapUnits() {
+        // Simpan posisi spinner yang dipilih
+        val fromUnitPosition = binding.spinnerFrom.selectedItemPosition
+        val toUnitPosition = binding.spinnerTo.selectedItemPosition
+
+        // Tukar posisi spinner
+        binding.spinnerFrom.setSelection(toUnitPosition)
+        binding.spinnerTo.setSelection(fromUnitPosition)
+
+        // Ambil hasil konversi terakhir dan set sebagai input baru, lalu reset hasil
+        val lastResultText = binding.conversionResult.text.toString()
+        if (lastResultText.isNotBlank()) {
+            binding.temperatureInput.setText(lastResultText)
+            binding.conversionResult.text = "" // Kosongkan hasil konversi agar bisa dihitung ulang
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

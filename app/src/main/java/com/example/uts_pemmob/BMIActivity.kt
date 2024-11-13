@@ -9,6 +9,8 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.DrawableCompat
+
 
 class BMIActivity : AppCompatActivity() {
 
@@ -38,6 +40,12 @@ class BMIActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val drawable = toolbar.navigationIcon
+        drawable?.let {
+            DrawableCompat.setTint(it, resources.getColor(android.R.color.white, theme))
+            toolbar.navigationIcon = it
+        }
 
         toolbar.setTitleTextColor(resources.getColor(android.R.color.white, theme))
 

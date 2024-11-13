@@ -17,6 +17,6 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, 3000) // 3000 ms = 3 detik
+        }, 5000)
     }
 }

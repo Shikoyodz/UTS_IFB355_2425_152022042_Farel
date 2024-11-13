@@ -3,16 +3,10 @@ package com.example.uts_pemmob
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.uts_pemmob.R
+import androidx.core.graphics.drawable.DrawableCompat
 
 class MoneyConvertActivity : AppCompatActivity() {
 
@@ -21,8 +15,9 @@ class MoneyConvertActivity : AppCompatActivity() {
     private lateinit var currencyToSpinner: Spinner
     private lateinit var convertButton: Button
     private lateinit var resultTextView: TextView
+    private lateinit var swapButton: ImageButton
 
-    // Updated currency rates including IDR (for demonstration purposes)
+    // Currency rates for demonstration purposes
     private val currencyRates = mapOf(
         "USD" to 1.0,
         "EUR" to 0.85,
@@ -30,7 +25,7 @@ class MoneyConvertActivity : AppCompatActivity() {
         "JPY" to 110.0,
         "AUD" to 1.35,
         "CAD" to 1.25,
-        "IDR" to 14200.0 // Example rate: 1 USD = 14200 IDR (adjust as necessary)
+        "IDR" to 14200.0
     )
 
     @SuppressLint("MissingInflatedId")
@@ -44,17 +39,26 @@ class MoneyConvertActivity : AppCompatActivity() {
         currencyToSpinner = findViewById(R.id.currencyToSpinner)
         convertButton = findViewById(R.id.convertButton)
         resultTextView = findViewById(R.id.resultTextView)
+        swapButton = findViewById(R.id.swapButton)
 
         // Setup Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val drawable = toolbar.navigationIcon
+        drawable?.let {
+            DrawableCompat.setTint(it, resources.getColor(android.R.color.white, theme))
+            toolbar.navigationIcon = it
+        }
         toolbar.setTitleTextColor(resources.getColor(android.R.color.white, theme))
 
+        // Setup spinners with currency options
         setupCurrencySpinners()
 
+        // Set click listeners for buttons
         convertButton.setOnClickListener { convertCurrency() }
+        swapButton.setOnClickListener { swapCurrencies() }
     }
 
     private fun setupCurrencySpinners() {
@@ -64,6 +68,24 @@ class MoneyConvertActivity : AppCompatActivity() {
 
         currencyFromSpinner.adapter = adapter
         currencyToSpinner.adapter = adapter
+    }
+
+    private fun swapCurrencies() {
+        val fromCurrencyPosition = currencyFromSpinner.selectedItemPosition
+        val toCurrencyPosition = currencyToSpinner.selectedItemPosition
+
+        // Swap spinner positions
+        currencyFromSpinner.setSelection(toCurrencyPosition)
+        currencyToSpinner.setSelection(fromCurrencyPosition)
+
+        // Set the last result as new input and reset the result
+        val lastResultText = resultTextView.text.toString()
+        if (lastResultText.isNotBlank()) {
+            amountInput.setText(lastResultText)
+            resultTextView.text = "" // Clear result for new conversion
+        }
+
+        Toast.makeText(this, "Currencies swapped!", Toast.LENGTH_SHORT).show()
     }
 
     private fun convertCurrency() {
@@ -89,13 +111,12 @@ class MoneyConvertActivity : AppCompatActivity() {
     private fun convert(amount: Double, fromCurrency: String, toCurrency: String): Double {
         val fromRate = currencyRates[fromCurrency] ?: 1.0
         val toRate = currencyRates[toCurrency] ?: 1.0
-
         return amount / fromRate * toRate
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            finish() // Close the activity and go back to the previous one
+            finish() // Close the activity and return to the previous screen
             return true
         }
         return super.onOptionsItemSelected(item)
