@@ -4,13 +4,26 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+    <!-- Judul Project -->
+    <TextView
+        android:id="@+id/projectTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="My ± App"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        android:layout_marginTop="50dp" />
+
     <!-- Foto Profil -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_below="@id/projectTitleTextView"
+        android:layout_marginTop="40dp"
         android:src="@drawable/foto_anda" />
 
     <!-- Nama -->
