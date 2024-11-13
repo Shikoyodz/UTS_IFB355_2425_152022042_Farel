@@ -74,22 +74,31 @@ class MoneyConvertActivity : AppCompatActivity() {
         val fromCurrencyPosition = currencyFromSpinner.selectedItemPosition
         val toCurrencyPosition = currencyToSpinner.selectedItemPosition
 
-        // Swap spinner positions
+        // Tukar posisi spinner
         currencyFromSpinner.setSelection(toCurrencyPosition)
         currencyToSpinner.setSelection(fromCurrencyPosition)
 
-        // Set the last result as new input and reset the result
+        // Ambil hasil konversi terakhir dan set sebagai input baru
         val lastResultText = resultTextView.text.toString()
         if (lastResultText.isNotBlank()) {
             amountInput.setText(lastResultText)
-            resultTextView.text = "" // Clear result for new conversion
         }
 
+        // Kosongkan hasil konversi sementara untuk menunjukkan sedang dihitung ulang
+        resultTextView.text = ""
+
         Toast.makeText(this, "Currencies swapped!", Toast.LENGTH_SHORT).show()
+
+        // Panggil fungsi convertCurrency untuk menghitung ulang nilai setelah swap
+        convertCurrency()
     }
 
     private fun convertCurrency() {
-        val amountText = amountInput.text.toString()
+        var amountText = amountInput.text.toString()
+
+        // Ganti koma dengan titik untuk parsing angka
+        amountText = amountText.replace(",", ".")
+
         if (amountText.isBlank()) {
             Toast.makeText(this, "Please enter an amount", Toast.LENGTH_SHORT).show()
             return

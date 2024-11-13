@@ -29,7 +29,6 @@ class TemperatureActivity : AppCompatActivity() {
             DrawableCompat.setTint(it, resources.getColor(android.R.color.white, theme))
             toolbar.navigationIcon = it
         }
-
         toolbar.setTitleTextColor(resources.getColor(android.R.color.white, theme))
 
         // Setup Spinner with temperature units
@@ -52,7 +51,7 @@ class TemperatureActivity : AppCompatActivity() {
             return
         }
 
-        val inputTemperature = inputTemperatureText.toDoubleOrNull()
+        val inputTemperature = inputTemperatureText.replace(",", ".").toDoubleOrNull()
         if (inputTemperature == null) {
             "Please enter a valid numeric value".showToast()
             return
@@ -120,12 +119,15 @@ class TemperatureActivity : AppCompatActivity() {
         binding.spinnerFrom.setSelection(toUnitPosition)
         binding.spinnerTo.setSelection(fromUnitPosition)
 
-        // Ambil hasil konversi terakhir dan set sebagai input baru, lalu reset hasil
+        // Ambil hasil konversi terakhir dan set sebagai input baru
         val lastResultText = binding.conversionResult.text.toString()
         if (lastResultText.isNotBlank()) {
             binding.temperatureInput.setText(lastResultText)
             binding.conversionResult.text = "" // Kosongkan hasil konversi agar bisa dihitung ulang
         }
+
+        // Panggil fungsi convertTemperature untuk menghitung ulang nilai setelah swap
+        convertTemperature()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
